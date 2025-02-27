@@ -25,4 +25,10 @@ public interface Editor {
      * @param image pixels of the image
      */
     void open(int[][] image);
+
+    /**
+     * Returns the image currently visible in the editor
+     * @return a non-null well-formed matrix
+     */
+    int[][] getImage();
 }

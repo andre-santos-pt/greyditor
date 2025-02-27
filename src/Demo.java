@@ -1,11 +1,11 @@
 import pt.iscte.greyditor.Editor;
-import pt.iscte.greyditor.ImageEditor;
+import pt.iscte.greyditor.Greyditor;
 import pt.iscte.greyditor.Selection;
 
 public class Demo {
 
     public static void main() {
-        ImageEditor editor = new ImageEditor("Demo");
+        Greyditor editor = new Greyditor("Demo");
 
         // filter without parameter (check box)
         editor.addFilter("Invert", Demo::invert);
@@ -32,6 +32,7 @@ public class Demo {
 
     /**
      * Filter to invert the pixel tones
+     *
      * @param tone value of a pixel [0, 255]
      * @return transformed value [0, 255]
      */
@@ -41,7 +42,8 @@ public class Demo {
 
     /**
      * Filter to darken the pixel tones with custom intensity
-     * @param tone intensity of a pixel
+     *
+     * @param tone      intensity of a pixel
      * @param intensity filter intensity
      * @return transformed pixel intensity [0, 255]
      */
@@ -51,6 +53,7 @@ public class Demo {
 
     /**
      * Effect to draw a grid of thirds
+     *
      * @param image image pixels to modify
      */
     static void grid(int[][] image) {
@@ -58,23 +61,24 @@ public class Demo {
         int vspace = (image.length + 2) / 3;
 
         // horizontal lines
-        for (int y = vspace; y < image.length; y+=vspace)
+        for (int y = vspace; y < image.length; y += vspace)
             for (int x = 0; x < image[y].length; x++)
-                    image[y][x] = 200;
+                image[y][x] = 200;
 
         // vertical lines
-        for (int x = hspace; x < image[0].length; x+=hspace)
+        for (int x = hspace; x < image[0].length; x += hspace)
             for (int y = 0; y < image.length; y++)
                 image[y][x] = 200;
     }
 
     /**
      * Effect to draw horizontal lines with custom spacing
-     * @param image image pixels to modify
+     *
+     * @param image   image pixels to modify
      * @param spacing space between the lines
      */
     static void lines(int[][] image, int spacing) {
-        if(spacing > 0)
+        if (spacing > 0)
             for (int y = 0; y < image.length; y += spacing)
                 for (int x = 0; x < image[y].length; x++)
                     image[y][x] = 0;
@@ -83,17 +87,17 @@ public class Demo {
     /**
      * Operation to clear (paint white) the selected area.
      * If there is no selection, the whole image is cleared.
-     * @param image image pixels that will be modified
+     *
+     * @param image  image pixels that will be modified
      * @param editor editor operations
      * @return null (no new matrix will replace the existing one)
      */
     static int[][] clear(int[][] image, Editor editor) {
         Selection selection = editor.getSelection();
-        if(selection == null) {
+        if (selection == null) {
             selection = new Selection(0, 0, image[0].length, image.length);
             editor.message("whole image will get white!");
-        }
-        else
+        } else
             editor.message("selection will get white!");
 
         for (int y = selection.y(); y < selection.y() + selection.height(); y++)
@@ -106,7 +110,8 @@ public class Demo {
     /**
      * Operation to replace the image with the top-left corner of the existing image.
      * The side of the corner is prompted to the user.
-     * @param image image pixels that will be read
+     *
+     * @param image  image pixels that will be read
      * @param editor editor operations
      * @return a new image to replace the current one
      */
@@ -116,8 +121,8 @@ public class Demo {
         side = Math.min(side, image[0].length);
 
         int[][] square = new int[side][side];
-        for(int y = 0; y < side; y++)
-            for(int x = 0; x < side; x++)
+        for (int y = 0; y < side; y++)
+            for (int x = 0; x < side; x++)
                 square[y][x] = image[y][x];
 
         return square;

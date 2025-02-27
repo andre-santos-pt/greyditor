@@ -1,5 +1,5 @@
 package pt.iscte.greyditor;
 
-public interface FilterValue extends Effect {
+public interface FilterValue {
     int transform(int tone, int value);
 }
