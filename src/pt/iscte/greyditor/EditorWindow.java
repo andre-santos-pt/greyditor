@@ -368,8 +368,8 @@ public class EditorWindow implements Editor {
     }
 
     @Override
-    public void draw(Consumer<Image> action) {
-        Image img = new Image() {
+    public void draw(Consumer<GreyImage> action) {
+        GreyImage img = new GreyImage() {
             int tone = 255;
 
             @Override

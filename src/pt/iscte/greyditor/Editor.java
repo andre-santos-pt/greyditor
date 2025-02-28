@@ -40,5 +40,9 @@ public interface Editor {
      */
     int getZoomFactor();
 
-    void draw(Consumer<Image> action);
+    /**
+     * Perform a drawing over the image
+     * @param action
+     */
+    void draw(Consumer<GreyImage> action);
 }

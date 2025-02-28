@@ -1,6 +1,6 @@
 package pt.iscte.greyditor;
 
-public interface Image {
+public interface GreyImage {
     /**
      * Image width
      * @return positive integer

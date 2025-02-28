@@ -1,4 +1,5 @@
 import pt.iscte.greyditor.Editor;
+import pt.iscte.greyditor.GreyImage;
 import pt.iscte.greyditor.Greyditor;
 
 public class DemoDraw {
