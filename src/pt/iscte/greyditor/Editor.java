@@ -1,5 +1,7 @@
 package pt.iscte.greyditor;
 
+import java.util.function.Consumer;
+
 public interface Editor {
     /**
      * Show a popup message
@@ -21,14 +23,30 @@ public interface Editor {
     Selection getSelection();
 
     /**
-     * Opens a new editor with the provided image
-     * @param image pixels of the image
-     */
-    void open(int[][] image);
-
-    /**
      * Returns the image currently visible in the editor
      * @return a non-null well-formed matrix
      */
     int[][] getImage();
+
+    /**
+     * Zooms in the image
+     * @param factor zoom factor
+     */
+    void zoom(int factor);
+
+    /**
+     * Returns the current zoom factor
+     * @return an integer greater than zero
+     */
+    int getZoomFactor();
+
+    void draw(Consumer<Image> action);
+
+    public interface Image {
+        int getWidth();
+        int getHeight();
+        void setTone(int tone);
+        void paint(int x, int y);
+        void paint(int x, int y, int tone);
+    }
 }

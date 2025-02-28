@@ -5,29 +5,32 @@ import pt.iscte.greyditor.Selection;
 public class Demo {
 
     public static void main() {
-        Greyditor editor = new Greyditor("Demo");
+        Greyditor configuration = new Greyditor("Demo");
 
         // filter without parameter (check box)
-        editor.addFilter("Invert", Demo::invert);
+        configuration.addFilter("Invert", Demo::invert);
 
         // filter with parameter (slider)
-        editor.addFilter("Darken", Demo::darken, 0, 255);
+        configuration.addFilter("Darken", Demo::darken, 0, 255);
 
         // effect without parameter (check box)
-        editor.addEffect("Grid", Demo::grid);
+        configuration.addEffect("Grid", Demo::grid);
 
         // effect with parameter (slider)
-        editor.addEffect("Lines", Demo::lines, 0, 50);
+        configuration.addEffect("Lines", Demo::lines, 0, 50);
 
         // default operations
-        editor.addLoadOperation("Load");
-        editor.addSaveOperation("Save");
+        configuration.addLoadOperation("Load");
+        configuration.addSaveOperation("Save");
+        configuration.addZoomInOperation("Zoom In");
+        configuration.addZoomOutOperation("Zoom Out");
 
         // custom operations
-        editor.addOperation("Clear", Demo::clear);
-        editor.addOperation("Square", Demo::square);
+        configuration.addOperation("Clear", Demo::clear);
+        configuration.addOperation("Square", Demo::square);
 
-        editor.open("monalisa.jpg");
+        configuration.open("monalisa.jpg");
+        configuration.open(30, 60);
     }
 
     /**

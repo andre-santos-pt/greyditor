@@ -53,6 +53,14 @@ public class Greyditor {
         operations.put(text, this::load);
     }
 
+    public void addZoomInOperation(String text) {
+        operations.put(text, this::zoomIn);
+    }
+
+    public void addZoomOutOperation(String text) {
+        operations.put(text, this::zoomOut);
+    }
+
     private class FilterAdapter implements EffectSimple {
         FilterSimple f;
 
@@ -83,11 +91,9 @@ public class Greyditor {
         }
     }
 
-    public void open(String fileName) {
-        open(loadImage(new File(fileName)));
-    }
 
-    public void open(int[][] image) {
+
+    public Editor open(int[][] image) {
         EditorWindow e = new EditorWindow(this, name, effects, operations);
         JFrame frame = e.newWindow(image);
         ALL_WINDOWS.add(frame);
@@ -102,6 +108,24 @@ public class Greyditor {
                 frame.setVisible(false);
             }
         });
+        return e;
+    }
+
+    public Editor open(String fileName) {
+        int[][] image = loadImage(new File(fileName));
+        if(image != null)
+            return open(image);
+        else
+            return null;
+    }
+
+    public Editor open(int width, int height) {
+        if(width < 1 || height < 1) {
+            JOptionPane.showMessageDialog(null, "Invalid dimension");
+            return null;
+        }
+        else
+            return open(new int[height][width]);
     }
 
     private int[][] save(int[][] image, Editor editor) {
@@ -134,7 +158,7 @@ public class Greyditor {
 
             if (overwriteOption == JOptionPane.YES_OPTION) {
                 try {
-                    ImageIO.write(EditorWindow.matrixToImage(editor.getImage()), "PNG",
+                    ImageIO.write(EditorWindow.matrixToImage(editor.getImage(), 1), "PNG",
                             selectedFile);
                 } catch (IOException e) {
                     editor.message("Erro a gravar o ficheiro");
@@ -187,6 +211,18 @@ public class Greyditor {
             open(selectedFile.getAbsolutePath());
             return null;
         }
+        return null;
+    }
+
+    private int[][] zoomIn(int[][] image, Editor editor) {
+        editor.zoom(editor.getZoomFactor() + 1);
+        //((EditorWindow) editor).frame.pack();
+        return null;
+    }
+
+    private int[][] zoomOut(int[][] image, Editor editor) {
+        editor.zoom(editor.getZoomFactor() - 1);
+        ((EditorWindow) editor).frame.pack();
         return null;
     }
 }
