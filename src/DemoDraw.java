@@ -4,11 +4,8 @@ import pt.iscte.greyditor.Greyditor;
 public class DemoDraw {
 
     public static void main() {
-        Greyditor configuration = new Greyditor("Demo Draw");
-
-        Editor e = configuration.open(256, 50);
+        Editor e = Greyditor.create(256, 50);
         e.zoom(3);
-
         e.draw(img -> {
             int t = 0;
             for (int x = 0; x < img.getWidth(); x++) {

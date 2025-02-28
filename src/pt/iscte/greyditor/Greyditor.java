@@ -20,6 +20,10 @@ public class Greyditor {
 
     private String name;
 
+    public static Editor create(int width, int height) {
+        return new Greyditor("Greyditor").open(width, height);
+    }
+
     public Greyditor(String name) {
         this.name = name;
     }

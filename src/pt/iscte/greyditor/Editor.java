@@ -41,12 +41,4 @@ public interface Editor {
     int getZoomFactor();
 
     void draw(Consumer<Image> action);
-
-    public interface Image {
-        int getWidth();
-        int getHeight();
-        void setTone(int tone);
-        void paint(int x, int y);
-        void paint(int x, int y, int tone);
-    }
 }
