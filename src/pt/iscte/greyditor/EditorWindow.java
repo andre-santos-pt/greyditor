@@ -286,6 +286,7 @@ public class EditorWindow implements Editor {
                     this.localImg.length * scale + PADDING * 2));
             repaint();
             sizeLabel.setText(localImg[0].length + " x " + localImg.length);
+            frame.pack();
         }
 
         public void clearSelection() {
