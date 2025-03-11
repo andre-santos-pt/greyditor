@@ -74,14 +74,16 @@ public class EditorWindow implements Editor {
 
         JPanel toolsPanel = new JPanel();
         toolsPanel.setBorder(new EmptyBorder(PADDING, 0, PADDING, PADDING));
-        JPanel inner = new JPanel();
-        inner.setBorder(BorderFactory.createTitledBorder(""));
-        inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
-        toolsPanel.add(inner);
-        frame.add(toolsPanel, BorderLayout.EAST);
+        if(!effects.isEmpty() || !operations.isEmpty()) {
+            JPanel inner = new JPanel();
+            inner.setBorder(BorderFactory.createTitledBorder(""));
+            inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
+            toolsPanel.add(inner);
+            frame.add(toolsPanel, BorderLayout.EAST);
 
-        addEffects(inner, effects);
-        addOperations(inner, operations);
+            addEffects(inner, effects);
+            addOperations(inner, operations);
+        }
     }
 
 

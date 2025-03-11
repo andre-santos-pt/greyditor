@@ -24,6 +24,14 @@ public class Greyditor {
         return new Greyditor("Greyditor").open(width, height);
     }
 
+    public static Editor create(String fileName) {
+        return new Greyditor("Greyditor: " + fileName).open(fileName);
+    }
+
+    public static Editor create(int[][] image) {
+        return new Greyditor("Greyditor").open(image);
+    }
+
     public Greyditor(String name) {
         this.name = name;
     }

@@ -1,3 +1,5 @@
+package pt.iscte.greyditor.examples;
+
 import pt.iscte.greyditor.Editor;
 import pt.iscte.greyditor.Greyditor;
 import pt.iscte.greyditor.Selection;
@@ -22,15 +24,12 @@ public class Demo {
         // default operations
         configuration.addLoadOperation("Load");
         configuration.addSaveOperation("Save");
-        configuration.addZoomInOperation("Zoom In");
-        configuration.addZoomOutOperation("Zoom Out");
 
         // custom operations
         configuration.addOperation("Clear", Demo::clear);
         configuration.addOperation("Square", Demo::square);
 
         configuration.open("monalisa.jpg");
-        configuration.open(300, 500);
     }
 
     /**
