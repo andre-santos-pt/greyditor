@@ -4,7 +4,7 @@ import pt.iscte.greyditor.Selection;
 
 public class Demo {
 
-    public static void main() {
+    public static void main(String[] args) {
         Greyditor configuration = new Greyditor("Demo");
 
         // filter without parameter (check box)
@@ -30,7 +30,7 @@ public class Demo {
         configuration.addOperation("Square", Demo::square);
 
         configuration.open("monalisa.jpg");
-        configuration.open(30, 60);
+        configuration.open(300, 500);
     }
 
     /**

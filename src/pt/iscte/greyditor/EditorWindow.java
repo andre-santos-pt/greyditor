@@ -73,12 +73,15 @@ public class EditorWindow implements Editor {
         frame.add(footer, BorderLayout.SOUTH);
 
         JPanel toolsPanel = new JPanel();
-        toolsPanel.setLayout(new BoxLayout(toolsPanel, BoxLayout.Y_AXIS));
-        toolsPanel.setBorder(new EmptyBorder(PADDING, PADDING, PADDING, PADDING));
+        toolsPanel.setBorder(new EmptyBorder(PADDING, 0, PADDING, PADDING));
+        JPanel inner = new JPanel();
+        inner.setBorder(BorderFactory.createTitledBorder(""));
+        inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
+        toolsPanel.add(inner);
         frame.add(toolsPanel, BorderLayout.EAST);
 
-        addEffects(toolsPanel, effects);
-        addOperations(toolsPanel, operations);
+        addEffects(inner, effects);
+        addOperations(inner, operations);
     }
 
 
@@ -385,7 +388,18 @@ public class EditorWindow implements Editor {
 
             @Override
             public void setTone(int tone) {
-                this.tone = tone;
+                int constrain = Math.max(0, Math.min(255, tone));
+                this.tone = constrain;
+                if(constrain != tone) {
+//                    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+//                    StackTraceElement caller = stackTrace[stackTrace.length-3];
+//                    System.out.println();
+//                    for(StackTraceElement e : stackTrace)
+//                        System.out.println(e.getClassName() + " " + e.getFileName()+ " " + e.getLineNumber());
+//                    System.err.println("invalid tone: " + tone + " (set to " + constrain + "); check " +
+//                            caller.getFileName() + " on line " + caller.getLineNumber());
+                    System.err.println("invalid tone: " + tone + " (set to " + constrain + ")");
+                }
             }
 
             @Override
