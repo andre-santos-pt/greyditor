@@ -108,6 +108,16 @@ public class Greyditor {
     }
 
 
+    public Editor open() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Abrir imagem");
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            return open(selectedFile.getAbsolutePath());
+        }
+        return null;
+    }
 
     public Editor open(int[][] image) {
         EditorWindow e = new EditorWindow(this, name, effects, operations);

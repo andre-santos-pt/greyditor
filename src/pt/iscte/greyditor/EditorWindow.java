@@ -168,17 +168,15 @@ public class EditorWindow implements Editor {
     }
 
     public int getInteger(String text) {
-        String input = null;
+        String input;
         do {
             input = JOptionPane.showInputDialog(frame, text);
             try {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                message("Valor não é um inteiro");
-                input = null;
+                //message("Valor não é um inteiro");
             }
-        } while (input == null);
-        return 0;
+        } while (true);
     }
 
 
