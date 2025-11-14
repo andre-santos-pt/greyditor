@@ -90,10 +90,10 @@ void lines(int[][] image, int spacing) {
 
 
 /**
- * Operation to replace the image with the top-left corner of the existing image.
- * The side of the corner is prompted to the user.
+ * Operation to square the image to side x side, where side is
+ * the minimum between the original width and height
  *
- * @param image  image pixels that will be read
+ * @param image image pixels that will be read
  * @return a new image to replace the current one
  */
 int[][] square(int[][] image) {
@@ -108,8 +108,7 @@ int[][] square(int[][] image) {
 
 
 /**
- * Operation to clear (paint white) the selected area.
- * If there is no selection, the whole image is cleared.
+ * Operation to darken the selected area.
  *
  * @param image  image pixels that will be modified
  * @param editor editor operations
