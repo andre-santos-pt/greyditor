@@ -125,7 +125,9 @@ public class EditorWindow implements Editor {
         for (Map.Entry<String, Operation> e : operations.entrySet()) {
             JButton button = new JButton(e.getKey());
             button.addActionListener(_ -> {
-                int[][] newImage = e.getValue().run(image, this);
+                int[][] newImage = e.getValue() instanceof OperationSimple ?
+                        ((OperationSimple) e.getValue()).run(image) :
+                        ((OperationEditor) e.getValue()).run(image, this);
                 if (newImage != null)
                     image = newImage;
                 imagePanel.clearSelection();
@@ -364,6 +366,7 @@ public class EditorWindow implements Editor {
     public void zoom(int factor) {
         if (factor >= 1 && factor <= 5) {
             imagePanel.setScale(factor);
+            frame.repaint();
             frame.pack();
         }
     }

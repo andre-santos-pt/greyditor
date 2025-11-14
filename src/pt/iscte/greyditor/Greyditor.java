@@ -53,24 +53,28 @@ public class Greyditor {
         effects.put(text, new EditorWindow.EffectMinMax(filter, min, max));
     }
 
-    public void addOperation(String text, Operation operation) {
+    public void addOperation(String text, OperationSimple operation) {
+        operations.put(text, operation);
+    }
+
+    public void addOperation(String text, OperationEditor operation) {
         operations.put(text, operation);
     }
 
     public void addSaveOperation(String text) {
-        operations.put(text, this::save);
+        addOperation(text, this::save);
     }
 
     public void addLoadOperation(String text) {
-        operations.put(text, this::load);
+        addOperation(text, this::load);
     }
 
     public void addZoomInOperation(String text) {
-        operations.put(text, this::zoomIn);
+        addOperation(text, this::zoomIn);
     }
 
     public void addZoomOutOperation(String text) {
-        operations.put(text, this::zoomOut);
+        addOperation(text, this::zoomOut);
     }
 
     private class FilterAdapter implements EffectSimple {
@@ -221,6 +225,7 @@ public class Greyditor {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             open(selectedFile.getAbsolutePath());
+            name = selectedFile.getAbsolutePath();
             return null;
         }
         return null;
@@ -228,7 +233,7 @@ public class Greyditor {
 
     private int[][] zoomIn(int[][] image, Editor editor) {
         editor.zoom(editor.getZoomFactor() + 1);
-        //((EditorWindow) editor).frame.pack();
+        ((EditorWindow) editor).frame.pack();
         return null;
     }
 
