@@ -110,7 +110,7 @@ public class Greyditor {
 
     public Editor open() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Abrir imagem");
+        fileChooser.setDialogTitle("Open image");
         int result = fileChooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
@@ -156,7 +156,7 @@ public class Greyditor {
 
     private int[][] save(int[][] image, Editor editor) {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Gravar imagem");
+        fileChooser.setDialogTitle("Save image");
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         FileFilter filter = new FileFilter() {
             @Override
@@ -177,8 +177,8 @@ public class Greyditor {
 
             int overwriteOption = selectedFile.exists() ? JOptionPane.showConfirmDialog(
                     null,
-                    "O ficheiro existe, de certeza?",
-                    "Sobrepor ficheiro?",
+                    "File already exists.",
+                    "Overwrite?",
                     JOptionPane.YES_NO_OPTION
             ) : JOptionPane.YES_OPTION;
 
@@ -187,7 +187,7 @@ public class Greyditor {
                     ImageIO.write(EditorWindow.matrixToImage(editor.getImage(), 1), "PNG",
                             selectedFile);
                 } catch (IOException e) {
-                    editor.message("Erro a gravar o ficheiro");
+                    editor.message("Error saving image");
                 }
             }
         }
@@ -199,13 +199,13 @@ public class Greyditor {
         try {
             BufferedImage image = ImageIO.read(inputFile);
             if (image.getHeight() > 1000 || image.getWidth() > 1000)
-                JOptionPane.showMessageDialog(null, "Tamanho de imagem demasiado grande (máximo: 1000x1000)");
+                JOptionPane.showMessageDialog(null, "Too large image (max: 1000x1000)");
             else if (image.getHeight() < 1 || image.getWidth() < 1)
-                JOptionPane.showMessageDialog(null, "Imagem tem que ter pelo menos dimensão 1x1");
+                JOptionPane.showMessageDialog(null, "An image must have a dimension of at least 1x1");
             else
                 return getImageDataGray(image);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Ficheiro não encontrado: " + inputFile.getAbsolutePath());
+            JOptionPane.showMessageDialog(null, "File not found: " + inputFile.getAbsolutePath());
         }
         return null;
     }
@@ -229,7 +229,7 @@ public class Greyditor {
 
     private int[][] load(int[][] image, Editor editor) {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Abrir imagem");
+        fileChooser.setDialogTitle("Open image");
         int result = fileChooser.showOpenDialog(null);
 
         if (result == JFileChooser.APPROVE_OPTION) {
