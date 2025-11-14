@@ -1,11 +1,14 @@
 # Greyditor
 Extensible grayscale editor for programming exercises with images.
 
-![greyditor](https://github.com/user-attachments/assets/2936625c-8d55-46c2-b93c-983f18df0c92)
+<img width="547" height="355" alt="Screenshot 2025-11-14 at 11 44 48" src="https://github.com/user-attachments/assets/7a1cedc0-a1c3-4ce1-a0b1-b905a96e64f6" />
 
-The following is a tutorial to understand how to use the editor. The code is compatible with Java 25, using a compact file. To start programming with the editor, download the JAR file and add it as a library to your project's classpath.
 
-Below you can find the minimal code to get the editor running. (The image file has to be located at the execution directory.)
+The following is a tutorial to understand how to use the editor. The code is compatible with Java 25, using a compact file. To start programming with the editor, download the JAR file from [Releases](https://github.com/andre-santos-pt/greyditor/releases) and add it as a library to your project's classpath.
+
+The full example can be found here: https://github.com/andre-santos-pt/greyditor/blob/main/src/pt/iscte/greyditor/examples/DemoCompactFile.java
+
+Below you can find the minimal code to get the editor running. The image file has to be located at the execution directory. If calling simply *configuration.open()* the user may choose an image file through a dialog. 
 ```java
 import pt.iscte.greyditor.Greyditor;
 
