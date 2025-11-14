@@ -4,7 +4,7 @@ Extensible grayscale editor for programming exercises with images.
 <img width="547" height="355" alt="Screenshot 2025-11-14 at 11 44 48" src="https://github.com/user-attachments/assets/7a1cedc0-a1c3-4ce1-a0b1-b905a96e64f6" />
 
 
-The following is a tutorial to understand how to use the editor. The code is compatible with Java 25, using a compact file. To start programming with the editor, download the JAR file from [Releases](https://github.com/andre-santos-pt/greyditor/releases) and add it as a library to your project's classpath.
+The following is a tutorial to understand how to use the editor with code compatible with Java 25 (using a compact file). To start programming with the editor, download the JAR file from [Releases](https://github.com/andre-santos-pt/greyditor/releases) and add it as a library to your project's classpath.
 
 The full example can be found here: https://github.com/andre-santos-pt/greyditor/blob/main/src/pt/iscte/greyditor/examples/DemoCompactFile.java
 
@@ -20,7 +20,7 @@ void main() {
 ```
 
 ## Filters
-The simplest feature is an image filter, where each pixel tone is transformed uniformly. Filters are defined as a function that receives an integer (tone of a pixel) and returns a new tone. The following function illustrated a filter where each pixel tone is inverted. This is a on/off filter, without any variable aspect. 
+The simplest feature is an image filter, where each pixel tone is transformed uniformly. Filters are defined as a function that receives an integer (tone of a pixel) and returns a new tone. The following function illustrates a filter where each pixel tone is inverted. It is a on/off filter, without any variable aspect. 
 
 ```java
 int invert(int tone) {
@@ -28,7 +28,7 @@ int invert(int tone) {
 }
 ```
 
-To include the filter in the editor add it to the configuration, providing the text to be displayed in the filter's check box. When running the following configuration, a checkbox for activating the filter will appear.
+To include the filter in the editor, add it to the configuration, providing the text to be displayed in the filter's check box. When running the following configuration, a checkbox for activating the filter will appear.
 ```java
 Greyditor configuration = new Greyditor("Demo");
 // filter without parameter (check box)
@@ -45,7 +45,7 @@ int darken(int tone, int intensity) {
 }
 ```
 
-When adding filters with a parameter in the editor, one must specify the range of values for the parameter. In this case, the value for *darkening* goes from zero (no effect) to 255 (maximum darkness). When running the following configuration, a slider for defining the filter intensity will appear.
+When adding filters with a parameter in the editor, one must specify the range of values for the argument. In this case, the value for *intensity* goes from zero (no effect) to 255 (maximum darkness). When running the following configuration, a slider for defining the filter intensity will appear.
 ```java
 Greyditor configuration = new Greyditor("Demo");
 // filter with parameter (slider)
@@ -56,9 +56,9 @@ configuration.open("monalisa.jpg");
 
 ## Effects
 
-An image effect transforms the image pixels in a non-uniform way, that is, not every pixel will be modified equally. As such, the implementing of an effect gains access to the whole matrix of pixels.
+An image effect transforms the image pixels in a non-uniform way, that is, not every pixel will be modified equally. As such, the implementation of an effect gains access to the whole matrix of pixels.
 
-The following example is an effect without parameter that draws a grid of thirds over the image.
+The following example is an effect that draws a grid of thirds over the image.
 
 ```java
 void grid(int[][] image) {
@@ -75,7 +75,7 @@ void grid(int[][] image) {
 }
 ```
 
-The effect may be added to the editor as in the following code, similar to when adding a filter.
+The effect may be added to the editor as follows, similar to the inclusion of a filter.
 
 ```java
 // effect without parameter (check box)
@@ -103,7 +103,7 @@ configuration.addEffect("Lines", this::lines, 0, 50);
 
 
 ## Operations
-While filters and effects act of the matrix of the image pixels, they cannot replace it, for instance to obtain a smaller or larger image. Adding an operation is the most flexible means because the image matrix may be replaced if necessary. Operations are defined as a function that possibly returns the new image to be displayed in the editor. The following example illustrates an operation to square the image to the smallest between width and height. 
+While filters and effects act over the matrix of the image pixels, they cannot replace it (for instance, to obtain an image with a different size). Operations are the most flexible means because the image matrix may be replaced, if necessary. Operations are defined as a function that possibly returns the new matrix to be displayed in the editor. The following example illustrates an operation to square the image to the smallest dimension between width and height. 
 
 ```java
 int[][] square(int[][] image) {
@@ -117,8 +117,6 @@ int[][] square(int[][] image) {
 }
 ```
 
-The matrix that was returned replaces the editor image. If the function returns *null* the current image will not be replaced.
-
 An operation may be added to the editor as follows.
 
 ```java
@@ -126,8 +124,11 @@ An operation may be added to the editor as follows.
 configuration.addOperation("Square", this::square);
 ```
 
+The matrix that is returned replaces the editor image. If the function returns *null* the current image will not be replaced.
+
+
 ### Access to editor
-An operation may access the editor obtain the selected image region and perform user interaction. In this case, one should add an additional parameter of type *pt.iscte.greyeditor.Editor*. The following example is an operation to darken an area of the image.
+An operation may access the editor to obtain the selected image region and perform user interaction. In this case, one should add an additional parameter of type *pt.iscte.greyeditor.Editor*. The following example is an operation to darken an area of the image.
 
 ```java
 int[][] darkenArea(int[][] image, Editor editor) {
@@ -139,7 +140,7 @@ int[][] darkenArea(int[][] image, Editor editor) {
         int factor = editor.getInteger("Intensity?");
         for (int y = selection.y(); y < selection.y() + selection.height(); y++)
             for (int x = selection.x(); x < selection.x() + selection.width(); x++)
-                image[y][x] = Math.max(0, image[y][x]- factor);
+                image[y][x] = Math.max(0, image[y][x] - factor);
     }
     return null;
 }
