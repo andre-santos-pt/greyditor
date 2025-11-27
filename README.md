@@ -101,6 +101,25 @@ Effects with a parameter may be added to the editor in a similar way than their 
 configuration.addEffect("Lines", this::lines, 0, 50);
 ```
 
+## Filters and effects as static methods
+If the filters or effects are defined as static methods as illustrated below: 
+```java
+class Effects {
+  static int darken(int tone, int intensity) {
+    //...
+  }
+
+  static void lines(int[][] image, int spacing) {
+    //...
+  }
+}
+```
+
+they can be included in the editor as follows:
+```java
+configuration.addFilter("darken", Effects::darken, 0, 255);
+configuration.addEffect("lines", Effects::lines, 0, 50);
+```
 
 ## Operations
 While filters and effects act over the matrix of the image pixels, they cannot replace it (for instance, to obtain an image with a different size). Operations are the most flexible means because the image matrix may be replaced, if necessary. Operations are defined as a function that possibly returns the new matrix to be displayed in the editor. The following example illustrates an operation to square the image to the smallest dimension between width and height. 
@@ -156,3 +175,23 @@ The editor has built-in default operations for loading and saving images. These 
 configuration.addLoadOperation("Load");
 configuration.addSaveOperation("Save");
 ```
+
+### Operations as class methods
+If the operations are defined in classes as illustrated below: 
+```java
+class Operations {
+  int[][] square(int[][] image) {
+    //...
+  }
+  int[][] darkenArea(int[][] image, Editor editor) {
+    //...
+  }
+}
+```
+they can be included in the editor as follows:
+```java
+Operations operations = new Operations();
+configuration.addOperation("square", operations::square);
+configuration.addOperation("darken", operations::darkenArea);
+```
+
