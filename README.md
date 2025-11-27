@@ -10,7 +10,7 @@ The full example can be found here: https://github.com/andre-santos-pt/greyditor
 
 Below you can find the minimal code to get the editor running. The image file has to be located at the execution directory. If calling simply *configuration.open()* the user may choose an image file through a dialog. 
 ```java
-import pt.iscte.greyditor.Greyditor;
+import pt.iscte.greyditor.*;
 
 void main() {
     Greyditor configuration = new Greyditor("Demo");
