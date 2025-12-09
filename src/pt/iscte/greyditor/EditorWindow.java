@@ -72,13 +72,13 @@ public class EditorWindow implements Editor {
         footer.add(toneLabel);
         frame.add(footer, BorderLayout.SOUTH);
 
-        JPanel toolsPanel = new JPanel();
-        toolsPanel.setBorder(new EmptyBorder(PADDING, 0, PADDING, PADDING));
         if(!effects.isEmpty() || !operations.isEmpty()) {
+            JPanel toolsPanel = new JPanel(new BorderLayout());
+            toolsPanel.setBorder(new EmptyBorder(PADDING, 0, PADDING, PADDING));
             JPanel inner = new JPanel();
-            inner.setBorder(BorderFactory.createTitledBorder(""));
             inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
-            toolsPanel.add(inner);
+            JScrollPane scrollPane = new JScrollPane(inner);
+            toolsPanel.add(scrollPane);
             frame.add(toolsPanel, BorderLayout.EAST);
 
             addEffects(inner, effects);
@@ -142,7 +142,7 @@ public class EditorWindow implements Editor {
             this.image = image;
             imagePanel.refresh();
             frame.pack();
-            frame.setResizable(false);
+            frame.setResizable(true);
             frame.setVisible(true);
             return frame;
         } else
@@ -174,7 +174,7 @@ public class EditorWindow implements Editor {
             try {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                //message("Valor não é um inteiro");
+
             }
         } while (true);
     }
