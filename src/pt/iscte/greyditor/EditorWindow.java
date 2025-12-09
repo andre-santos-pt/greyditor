@@ -112,8 +112,12 @@ public class EditorWindow implements Editor {
                 slider.setMinorTickSpacing(1);
                 slider.setPaintTicks(true);
                 slider.setValue(0);
-                slider.addChangeListener(_ -> imagePanel.refresh());
-                slider.setToolTipText("min: " + r.min + "  max: " + r.max);
+                slider.addChangeListener(_ -> {
+                    imagePanel.refresh();
+                    slider.setToolTipText("value: " + slider.getValue() + " (min: " + r.min + "  max: " + r.max + ")");
+                  }
+                );
+                slider.setToolTipText("value: " + slider.getValue() + " (min: " + r.min + "  max: " + r.max + ")");
                 panel.add(slider);
                 toolsPanel.add(panel);
                 effectsSupplier.put(effect, () -> slider.getValue());
