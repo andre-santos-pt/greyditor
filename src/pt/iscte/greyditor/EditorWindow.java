@@ -9,6 +9,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -34,17 +35,21 @@ public class EditorWindow implements Editor {
     private final JLabel pointLabel;
     private final JLabel toneLabel;
 
-    private final Map<String, EffectMinMax> effects;
+    private final List<EffectMinMax> effects;
     private final Map<Effect, Supplier<Integer>> effectsSupplier;
 
-    private final Map<String, Operation> operations;
+    private final List<OperationTool> operations;
 
     private int[][] image;
 
-    record EffectMinMax(Effect effect, int min, int max) {
+    record EffectMinMax(String text, Effect effect, int min, int max) {
     }
 
-    public EditorWindow(Greyditor editor, String title, Map<String, EffectMinMax> effects, Map<String, Operation> operations) {
+    record OperationTool(String text, Operation operation) {
+
+    }
+
+    public EditorWindow(Greyditor editor, String title, List<EffectMinMax> effects, List<OperationTool> operations) {
         this.editor = editor;
         this.effects = effects;
         this.operations = operations;
@@ -81,32 +86,29 @@ public class EditorWindow implements Editor {
             toolsPanel.add(scrollPane);
             frame.add(toolsPanel, BorderLayout.EAST);
 
-            addEffects(inner, effects);
-            addOperations(inner, operations);
+            addEffects(inner);
+            addOperations(inner);
         }
     }
 
 
-    private void addEffects(JPanel toolsPanel, Map<String, EffectMinMax> effects) {
-
-        for (Map.Entry<String, EffectMinMax> e : effects.entrySet()) {
-            EffectMinMax r = e.getValue();
-            Effect effect = r.effect;
-            if (effect instanceof EffectSimple) {
-                JCheckBox check = new JCheckBox(e.getKey());
+    private void addEffects(JPanel toolsPanel) {
+        for (EffectMinMax e : effects) {
+            if (e.effect instanceof EffectSimple) {
+                JCheckBox check = new JCheckBox(e.text);
                 check.setAlignmentX(Component.LEFT_ALIGNMENT);
                 check.addItemListener(ev -> {
                     imagePanel.refresh();
                 });
                 toolsPanel.add(check);
-                effectsSupplier.put(effect, () -> check.isSelected() ? 1 : null);
-            } else if (effect instanceof EffectValue) {
+                effectsSupplier.put(e.effect, () -> check.isSelected() ? 1 : null);
+            } else if (e.effect instanceof EffectValue) {
                 JPanel panel = new JPanel();
                 panel.setAlignmentX(Component.LEFT_ALIGNMENT);
                 panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-                JLabel label = new JLabel(e.getKey());
+                JLabel label = new JLabel(e.text);
                 panel.add(label);
-                JSlider slider = new JSlider(r.min, r.max);
+                JSlider slider = new JSlider(e.min, e.max);
                 slider.setMajorTickSpacing(10);
                 slider.setSnapToTicks(true);
                 slider.setMinorTickSpacing(1);
@@ -114,24 +116,24 @@ public class EditorWindow implements Editor {
                 slider.setValue(0);
                 slider.addChangeListener(_ -> {
                     imagePanel.refresh();
-                    slider.setToolTipText("value: " + slider.getValue() + " (min: " + r.min + "  max: " + r.max + ")");
+                    slider.setToolTipText("value: " + slider.getValue() + " (min: " + e.min + "  max: " + e.max + ")");
                   }
                 );
-                slider.setToolTipText("value: " + slider.getValue() + " (min: " + r.min + "  max: " + r.max + ")");
+                slider.setToolTipText("value: " + slider.getValue() + " (min: " + e.min + "  max: " + e.max + ")");
                 panel.add(slider);
                 toolsPanel.add(panel);
-                effectsSupplier.put(effect, () -> slider.getValue());
+                effectsSupplier.put(e.effect, () -> slider.getValue());
             }
         }
     }
 
-    private void addOperations(JPanel toolsPanel, Map<String, Operation> effects) {
-        for (Map.Entry<String, Operation> e : operations.entrySet()) {
-            JButton button = new JButton(e.getKey());
+    private void addOperations(JPanel toolsPanel) {
+        for (OperationTool o : operations) {
+            JButton button = new JButton(o.text);
             button.addActionListener(_ -> {
-                int[][] newImage = e.getValue() instanceof OperationSimple ?
-                        ((OperationSimple) e.getValue()).run(image) :
-                        ((OperationEditor) e.getValue()).run(image, this);
+                int[][] newImage = o.operation instanceof OperationSimple ?
+                        ((OperationSimple) o.operation).run(image) :
+                        ((OperationEditor) o.operation).run(image, this);
                 if (newImage != null)
                     image = newImage;
                 imagePanel.clearSelection();
@@ -312,8 +314,7 @@ public class EditorWindow implements Editor {
 
     private int[][] applyEffects(int[][] image) {
         int[][] copy = deepCopy(image);
-        for (Map.Entry<String, EffectMinMax> f : effects.entrySet()) {
-            EffectMinMax e = f.getValue();
+        for (EffectMinMax e : effects) {
             Supplier<Integer> sup = effectsSupplier.get(e.effect);
             if (e.effect instanceof EffectSimple && sup.get() != null)
                 ((EffectSimple) e.effect).apply(copy);

@@ -10,13 +10,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Greyditor {
     private static final ArrayList<JFrame> ALL_WINDOWS = new ArrayList<>();
 
-    private final Map<String, EditorWindow.EffectMinMax> effects = new LinkedHashMap<>();
-    private final Map<String, Operation> operations = new LinkedHashMap<>();
+    private final List<EditorWindow.EffectMinMax> effects = new ArrayList<>();
+    private final List<EditorWindow.OperationTool> operations = new ArrayList<>();
 
     private String name;
 
@@ -37,28 +38,27 @@ public class Greyditor {
     }
 
     public void addFilter(String text, FilterSimple filter) {
-        effects.put(text, new EditorWindow.EffectMinMax(
-                new FilterAdapter(filter), 0, 0));
+        effects.add(new EditorWindow.EffectMinMax(text, new FilterAdapter(filter), 0, 0));
     }
 
     public void addFilter(String text, FilterValue filter, int min, int max) {
-        effects.put(text, new EditorWindow.EffectMinMax(new FilterValueAdapter(filter), min, max));
+        effects.add(new EditorWindow.EffectMinMax(text, new FilterValueAdapter(filter), min, max));
     }
 
     public void addEffect(String text, EffectSimple filter) {
-        effects.put(text, new EditorWindow.EffectMinMax(filter, 0, 0));
+        effects.add(new EditorWindow.EffectMinMax(text, filter, 0, 0));
     }
 
     public void addEffect(String text, EffectValue filter, int min, int max) {
-        effects.put(text, new EditorWindow.EffectMinMax(filter, min, max));
+        effects.add(new EditorWindow.EffectMinMax(text, filter, min, max));
     }
 
     public void addOperation(String text, OperationSimple operation) {
-        operations.put(text, operation);
+        operations.add(new EditorWindow.OperationTool(text, operation));
     }
 
     public void addOperation(String text, OperationEditor operation) {
-        operations.put(text, operation);
+        operations.add(new EditorWindow.OperationTool(text, operation));
     }
 
     public void addSaveOperation(String text) {
